@@ -1,0 +1,118 @@
+#include <vector>
+#include <iostream>
+
+#include "nuage.hpp"
+#include "point.hpp"
+#include "cartesien.hpp"
+#include "polaire.hpp"
+
+template <typename T>
+unsigned int Nuage<T>::size () const {return v.size();}
+
+template <typename T>
+void Nuage<T>::ajouter (const T p)
+{
+    v.push_back(p);
+}
+
+template <typename T>
+typename Nuage<T>::const_iterator Nuage<T>::begin() const
+{
+    return v.begin();
+}
+
+template <typename T>
+typename Nuage<T>::const_iterator Nuage<T>::end() const
+{
+    return v.end();
+}
+
+template <typename T>
+Cartesien barycentre_v1 (const Nuage<T> & n)
+{
+    if(n.size() == 0)
+    {
+        return Cartesien(0.0,0.0);
+    }
+    typename Nuage<T>::const_iterator it;
+    double x = 0;
+    double y = 0;
+    unsigned int i = 0;
+    for(it = n.begin(); it != n.end(); it++, i++)
+    {
+        Cartesien c;
+        it->convertir(c);
+        x += c.getX();
+        y += c.getY();
+    }
+    x /= i;
+    y /= i;
+    return Cartesien(x,y);
+}
+
+template <typename T>
+Cartesien barycentre_v1B (const Nuage<T> & n)
+{
+    if(n.size() == 0)
+    {
+        return Polaire(0.0,0.0);
+    }
+    typename Nuage<T>::const_iterator it;
+    double x = 0;
+    double y = 0;
+    unsigned int i = 0;
+    for(it = n.begin(); it != n.end(); it++, i++)
+    {
+        x += it->getAngle();
+        y += it->getDistance();
+    }
+    x /= i;
+    y /= i;
+    return Polaire(x,y);
+}
+
+template <typename T>
+Cartesien barycentre_v2 (const Nuage<T> & n)
+{
+    if(n.size() == 0)
+    {
+        return Cartesien(0.0,0.0);
+    }
+    typename Nuage<T>::const_iterator it;
+    double x = 0;
+    double y = 0;
+    unsigned int i = 0;
+    for(it = n.begin(); it != n.end(); it++, i++)
+    {
+        Cartesien c;
+        it->convertir(c);
+        x += c.getX();
+        y += c.getY();
+    }
+    x /= i;
+    y /= i;
+    return Cartesien(x,y);
+}
+
+template <typename T>
+Cartesien barycentre_v2 (const std::vector<T> & n)
+{
+    if(n.size() == 0)
+    {
+        return Cartesien(0.0,0.0);
+    }
+    typename std::vector<T>::const_iterator it;
+    double x = 0;
+    double y = 0;
+    unsigned int i = 0;
+    for(it = n.begin(); it != n.end(); it++, i++)
+    {
+        Cartesien c;
+        it->convertir(c);
+        x += c.getX();
+        y += c.getY();
+    }
+    x /= i;
+    y /= i;
+    return Cartesien(x,y);
+}

@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+#include <tuple>
+
+#include "chaine.hpp"
+#include "demangle.hpp"
+
+template <typename T>
+std::string chaine (const T & x)
+{
+    throw ExceptionChaine(typeid(x).name());
+}
+
+ExceptionChaine::ExceptionChaine(std::string _type) : msg{"Conversion en chaine impossible pour '" + demangle(_type) + "'"} {}
+
+const char* ExceptionChaine::what() const throw() { return msg.c_str(); }
+
+std::string chaine (const std::string & x)
+{
+    return x;
+}
+
+std::string chaine (int x)
+{
+    return std::to_string(x);
+}
+
+std::string chaine (double x)
+{
+    return std::to_string(x);
+}
+
+template <typename... Args> std::string chaine(Args... args)
+{
+    return ((chaine(args) + " ") + ...);
+}
+
+template <typename... Args> std::string chaine(std::tuple<Args...> & t)
+{ return (f_bis(t,std::make_index_sequence<sizeof...(Args)>())); }
+
+template <typename T,size_t... Args>
+std::string f_bis(const T & t,std::index_sequence<Args...>)
+{ return (chaine(std::get<Args>(t)...)); }
