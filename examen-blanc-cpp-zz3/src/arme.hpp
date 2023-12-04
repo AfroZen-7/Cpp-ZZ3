@@ -12,16 +12,39 @@ class Arme : public Item
         Enchantement * ench;
     public:    
         double getDurabilite () const {return durabilite;};
-        Arme(std::string n, double p, double d) : Item(n,p), durabilite(d), ench(nullptr) {setVendable(false);};
-        Arme(const Arme & a) : Item(a), durabilite(a.getDurabilite()), ench(a.getEnchantement()) {setVendable(a.estVendable());};
         
+        Arme(std::string n, double p, double d) : Item(n,p), durabilite(d), ench(nullptr) {setVendable(false);};
+        
+        Arme(const Arme & a) : Item(a), durabilite(a.getDurabilite()) 
+        {
+            setVendable(a.estVendable());
+            ench = new Enchantement(a.getEnchantement()->getPuissance());
+        };
+        
+        //Constructeur par mouvement qui fait appel au constructeur par mouvement de la classe parent
+        Arme(Arme&& autre) noexcept : Item(autre), durabilite(autre.durabilite), ench(autre.ench)
+        {
+            autre.durabilite = 0;
+            autre.ench = nullptr;
+        }
+
+        //Redéfinition de l'opérateur d'affection pour passer le test std::is_move_assignable<Arme>::value
+        Arme operator=(Arme && arme)
+        {
+            return Arme(std::move(arme));
+        }
+
+        //Destructeur car pointeur utilisé dans la classe
+        ~Arme() {delete ench;}
+
+        //Exception personnalisée
         class DestroyedItemException : std::exception
         {
             public :
                 const char* what() const throw() {return "Exception levée dû à la durabilité de l'arme qui est nulle.";};
         };
 
-        std::string getNom() const 
+        std::string getNom() const //"Redéfinition" de la méthode toString()
         {
             std::stringstream flux; 
             flux << nom;
@@ -34,7 +57,7 @@ class Arme : public Item
         void utiliser () 
         {
             if (durabilite > 0) {durabilite--;}
-            else {throw DestroyedItemException();};
+            else {throw DestroyedItemException();}; //Déclenchement de l'exception
         };
 
         Enchantement * getEnchantement () const {return ench;};

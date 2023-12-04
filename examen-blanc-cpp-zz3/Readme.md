@@ -2,6 +2,8 @@
 
 Ce dépôt contient un TP d'entrainement pour l'examen de C++ de dernière année à l'ISIMA. Il a été écrit par un étudiant sans aucun lien avec les professeurs ou l'école. Il ne garantit donc pas que le contenu est réellement ce qu'il faut réviser pour le vrai examen sur machine. Le sujet a été écrit pour la session de Décembre 2020 (visant le standard C++14).
 
+Lien du dépot : https://gitlab.com/gagoi_/examen-blanc-cpp-zz3
+
 ## Organisation
 
 Le sujet a été prévu pour être fait uniquement à partir des tests unitaires présents dans le dossier `test`. En effet le jour de l'exament vous gagnerez du temps si vous êtes capable de comprendre le code attendu (ou au moins une intuition) à partir des tests uniquements.
