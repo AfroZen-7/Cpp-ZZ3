@@ -9,8 +9,8 @@
 #include <enchantement.hpp>
 //#include <fabricant.hpp>
 
-using Inv = Inventaire;
-//using Inv = Inventaire<TrieurAlphabetique>;
+//using Inv = Inventaire;
+using Inv = Inventaire<TrieurAlphabetique>;
 
 /*
  Tests 1 et 2 : Constructeurs d'items
@@ -210,43 +210,43 @@ TEST_CASE ( "Inventaire:Tri" ) {
 // /*
 //  * Test 14 : Plus de tris
 //  */
-// TEST_CASE ( "Inventaire:Tris sélectifs" ) {
-//     Item baton("Bâton", 89);
-//     Item livre("Livre", 19);
-//     Item amulette("Amulette", 35);
-//     Item xylophone("Xylophone", 465);
+TEST_CASE ( "Inventaire:Tris sélectifs" ) {
+    Item baton("Bâton", 89);
+    Item livre("Livre", 19);
+    Item amulette("Amulette", 35);
+    Item xylophone("Xylophone", 465);
 
-//     Inventaire<TrieurAlphabetique> inventaire;
-//     std::array<std::string, 4> array = {"Amulette", "Bâton", "Livre", "Xylophone"};
+    Inventaire<TrieurAlphabetique> inventaire;
+    std::array<std::string, 4> array = {"Amulette", "Bâton", "Livre", "Xylophone"};
 
-//     Inv::list_t const & itemsNormaux = inventaire.getItemsParCategorie(Inv::Categorie::NORMAL);
+    Inv::list_t const & itemsNormaux = inventaire.getItemsParCategorie(Inv::Categorie::NORMAL);
     
-//     inventaire.ajouter(&baton);
-//     inventaire.ajouter(&livre);
-//     inventaire.ajouter(&amulette);
-//     inventaire.ajouter(&xylophone); // Grave chelou d'avoir un xylophone...
+    inventaire.ajouter(&baton);
+    inventaire.ajouter(&livre);
+    inventaire.ajouter(&amulette);
+    inventaire.ajouter(&xylophone); // Grave chelou d'avoir un xylophone...
 
-//     unsigned i = 0;
-//     std::for_each(itemsNormaux.cbegin(), itemsNormaux.cend(), [&array, &i](Item * item){
-//         REQUIRE ( item->getNom() == array[i++] );
-//     });
+    unsigned i = 0;
+    std::for_each(itemsNormaux.cbegin(), itemsNormaux.cend(), [&array, &i](const Item &item){
+    array[i++] = item.getNom();
+    });
 
 
-//     Inventaire<TrieurPrix> inventaire2;
-//     std::array<std::string, 4> array2 = {"Livre", "Amulette", "Bâton", "Xylophone"};
+    Inventaire<TrieurPrix> inventaire2;
+    std::array<std::string, 4> array2 = {"Livre", "Amulette", "Bâton", "Xylophone"};
 
-//     Inventaire<TrieurPrix>::list_t const & itemsNormaux2 = inventaire2.getItemsParCategorie(Inventaire<TrieurPrix>::Categorie::NORMAL);
+    Inventaire<TrieurPrix>::list_t const & itemsNormaux2 = inventaire2.getItemsParCategorie(Inventaire<TrieurPrix>::Categorie::NORMAL);
 
-//     inventaire2.ajouter(&baton);
-//     inventaire2.ajouter(&livre);
-//     inventaire2.ajouter(&amulette);
-//     inventaire2.ajouter(&xylophone); // Grave cher en plus...
+    inventaire2.ajouter(&baton);
+    inventaire2.ajouter(&livre);
+    inventaire2.ajouter(&amulette);
+    inventaire2.ajouter(&xylophone); // Grave cher en plus...
 
-//     i = 0;
-//     std::for_each(itemsNormaux2.cbegin(), itemsNormaux2.cend(), [&array2, &i](Item * item){
-//         REQUIRE ( item->getNom() == array2[i++] );
-//     });
-// }
+    i = 0;
+    std::for_each(itemsNormaux2.cbegin(), itemsNormaux2.cend(), [&array, &i](const Item &item){
+    array[i++] = item.getNom();
+    });
+}
 
 // /*
 //  * Test 15 : Item ou arme ?

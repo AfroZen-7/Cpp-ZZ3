@@ -4,6 +4,18 @@
 #include <list>
 #include "item.hpp"
 
+class Comparateur {};
+
+class TrieurAlphabetique : public Comparateur
+{
+};
+
+class TrieurPrix : public Comparateur
+{
+};
+
+
+template <class Comparateur = TrieurAlphabetique>
 class Inventaire
 {
     private :
@@ -137,4 +149,136 @@ class Inventaire
             }
         }
 
+};
+
+template <> class Inventaire<TrieurPrix>
+{
+    private :
+        int taille;
+        //std::vector<Item> stock;
+        std::list<Item> itemsNormaux;
+        std::list<Item> itemsArmes;
+        std::list<Item> itemsConsommables;
+        std::list<Item> itemsRares;
+
+    public:    
+        //Classe d'énumération
+        enum class Categorie : char
+        {
+            ARME = 'A', CONSOMMABLE = 'C', RARE = 'R', NORMAL='N'
+        };
+        //using list_t = std::set<Item *, Comparateur>;
+        
+        //Création des containers (listes) permettant de stocker les Items par catégorie, on réutilise le std::list_t car plus pratique
+        using list_t = std::list<Item>;
+        
+        Inventaire() : taille(0) {}
+        
+        int getTaille() const {return taille;}
+        
+        void ajouter(const Item * i) 
+        {
+            if (itemsNormaux.empty())
+            {
+                itemsNormaux.push_back(*i);
+            }
+            else if (itemsNormaux.front().getPrix() < i->getPrix())
+            {
+                itemsNormaux.push_back(*i);
+            }
+            else
+            {
+                itemsNormaux.push_front(*i);
+            }
+            taille++;
+        }
+
+        void ajouter(const Item * i, Inventaire<TrieurAlphabetique>::Categorie c) 
+        {
+            switch (c)
+            {
+                case Inventaire<TrieurAlphabetique>::Categorie::ARME :
+                    if (itemsArmes.empty())
+                    {
+                        itemsArmes.push_back(*i);
+                    }
+                    else if (itemsArmes.front().getPrix() < i->getPrix())
+                    {
+                        itemsArmes.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsArmes.push_front(*i);
+                    }
+                    break;
+                
+                case Inventaire<TrieurAlphabetique>::Categorie::CONSOMMABLE :
+                    if (itemsConsommables.empty())
+                    {
+                        itemsConsommables.push_back(*i);
+                    }
+                    else if (itemsConsommables.front().getPrix() < i->getPrix())
+                    {
+                        itemsConsommables.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsConsommables.push_front(*i);
+                    }
+                    break;
+                
+                case Inventaire<TrieurAlphabetique>::Categorie::RARE :
+                    if (itemsRares.empty())
+                    {
+                        itemsRares.push_back(*i);
+                    }
+                    else if (itemsRares.front().getPrix() < i->getPrix())
+                    {
+                        itemsRares.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsRares.push_front(*i);
+                    }
+                    break;
+                
+                default :
+                    if (itemsArmes.empty())
+                    {
+                        itemsArmes.push_back(*i);
+                    }
+                    else if (itemsNormaux.front().getPrix() < i->getPrix())
+                    {
+                        itemsNormaux.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsNormaux.push_front(*i);
+                    }
+                    break;
+            }
+            taille++;
+        }
+
+        list_t & getItemsParCategorie (Categorie c)
+        {
+            switch (c)
+            {
+                case Categorie::ARME :
+                    return itemsArmes;
+                    break;
+                
+                case Categorie::CONSOMMABLE :
+                    return itemsConsommables;
+                    break;
+                
+                case Categorie::RARE :
+                    return itemsRares;
+                    break;
+                
+                default :
+                    return itemsNormaux;
+                    break;
+            }
+        }
 };
