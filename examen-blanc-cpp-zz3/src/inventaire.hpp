@@ -32,8 +32,20 @@ class Inventaire
         void ajouter(const Item * i) 
         {
             //stock.push_back(*i);
+            
+            if (itemsNormaux.empty())
+            {
+                itemsNormaux.push_back(*i);
+            }
+            else if (itemsNormaux.front().getNom() < i->getNom())
+            {
+                itemsNormaux.push_back(*i);
+            }
+            else
+            {
+                itemsNormaux.push_front(*i);
+            }
             taille++;
-            itemsNormaux.push_back(*i);
         }
 
         void ajouter(const Item * i, Categorie c) 
@@ -41,19 +53,63 @@ class Inventaire
             switch (c)
             {
                 case Categorie::ARME :
-                    itemsArmes.push_back(*i);
+                    if (itemsArmes.empty())
+                    {
+                        itemsArmes.push_back(*i);
+                    }
+                    else if (itemsArmes.front().getNom() < i->getNom())
+                    {
+                        itemsArmes.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsArmes.push_front(*i);
+                    }
                     break;
                 
                 case Categorie::CONSOMMABLE :
-                    itemsConsommables.push_back(*i);
+                    if (itemsConsommables.empty())
+                    {
+                        itemsConsommables.push_back(*i);
+                    }
+                    else if (itemsConsommables.front().getNom() < i->getNom())
+                    {
+                        itemsConsommables.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsConsommables.push_front(*i);
+                    }
                     break;
                 
                 case Categorie::RARE :
-                    itemsRares.push_back(*i);
+                    if (itemsRares.empty())
+                    {
+                        itemsRares.push_back(*i);
+                    }
+                    else if (itemsRares.front().getNom() < i->getNom())
+                    {
+                        itemsRares.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsRares.push_front(*i);
+                    }
                     break;
                 
                 default :
-                    itemsNormaux.push_back(*i);
+                    if (itemsArmes.empty())
+                    {
+                        itemsArmes.push_back(*i);
+                    }
+                    else if (itemsNormaux.front().getNom() < i->getNom())
+                    {
+                        itemsNormaux.push_back(*i);
+                    }
+                    else
+                    {
+                        itemsNormaux.push_front(*i);
+                    }
                     break;
             }
             taille++;

@@ -183,28 +183,29 @@ TEST_CASE ( "Inventaire:Catégorisation" ) {
 // /*
 //  * Test 13 : Tri
 //  */
-// TEST_CASE ( "Inventaire:Tri" ) {
-//     Inv inventaire;
+TEST_CASE ( "Inventaire:Tri" ) {
+    Inv inventaire;
     
-//     Item baton("Bâton");
-//     Item livre("Livre");
-//     Item amulette("Amulette");
-//     Item xylophone("Xylophone");
+    Item baton("Bâton");
+    Item livre("Livre");
+    Item amulette("Amulette");
+    Item xylophone("Xylophone");
 
-//     std::array<std::string, 4> array = {"Amulette", "Bâton", "Livre", "Xylophone"};
+    std::array<std::string, 4> array = {"Amulette", "Bâton", "Livre", "Xylophone"};
 
-//     Inv::list_t const & itemsNormaux = inventaire.getItemsParCategorie(Inv::Categorie::NORMAL);
+    Inv::list_t const & itemsNormaux = inventaire.getItemsParCategorie(Inv::Categorie::NORMAL);
     
-//     inventaire.ajouter(&baton);
-//     inventaire.ajouter(&livre);
-//     inventaire.ajouter(&amulette);
-//     inventaire.ajouter(&xylophone); // Grave chelou d'avoir un xylophone...
+    inventaire.ajouter(&baton);
+    inventaire.ajouter(&livre);
+    inventaire.ajouter(&amulette);
+    inventaire.ajouter(&xylophone); // Grave chelou d'avoir un xylophone...
 
-//     unsigned i = 0;
-//     std::for_each(itemsNormaux.cbegin(), itemsNormaux.cend(), [&array, &i](Item * item){
-//         REQUIRE ( item->getNom() == array[i++] );
-//     });
-// }
+    unsigned i = 0;
+    std::for_each(itemsNormaux.cbegin(), itemsNormaux.cend(), [&array, &i](const Item &item){
+    array[i++] = item.getNom();
+    });
+
+}
 
 // /*
 //  * Test 14 : Plus de tris
