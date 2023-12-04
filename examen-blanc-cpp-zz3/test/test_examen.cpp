@@ -142,13 +142,14 @@ TEST_CASE ( "Inventaire:Stokage" ) {
 }
 
 // /*
-//  * Test 11 : Enum
+//  * Test 11 : Classe d'Énumération, Il y a 3 catégories : `ARME`, `CONSOMMABLE`, `RARE`
 //  */
 TEST_CASE ( "Inventaire:Catégorie" ) {
     Inv::Categorie categorie = Inv::Categorie::ARME; 
 
     REQUIRE ( static_cast<char>(categorie) == 'A' );
     REQUIRE ( static_cast<char>(Inv::Categorie::CONSOMMABLE) == 'C' );
+    REQUIRE ( static_cast<char>(Inv::Categorie::NORMAL) == 'N' );
     REQUIRE ( static_cast<char>(Inv::Categorie::RARE) == 'R' );
 }
 
@@ -158,26 +159,26 @@ TEST_CASE ( "Inventaire:Catégorie" ) {
 //  * AIDE : Chaque catégorie d'item est stockée dans son propre container.
 //  * On ne touche pas à autre chose qu'à Inventaire.
 //  */
-// TEST_CASE ( "Inventaire:Catégorisation" ) {
-//     Inv inventaire;
-//     Item graal("Graal");
-//     Item baton("Bâton");
+TEST_CASE ( "Inventaire:Catégorisation" ) {
+    Inv inventaire;
+    Item graal("Graal");
+    Item baton("Bâton");
 
-//     Inv::list_t const & itemsRares = inventaire.getItemsParCategorie(Inv::Categorie::RARE);
-//     Inv::list_t const & itemsNormaux = inventaire.getItemsParCategorie(Inv::Categorie::NORMAL);
-//     Inv::list_t const & itemsArmes = inventaire.getItemsParCategorie(Inv::Categorie::ARME);
-//     Inv::list_t const & itemsConsommables = inventaire.getItemsParCategorie(Inv::Categorie::CONSOMMABLE);
+    Inv::list_t const & itemsRares = inventaire.getItemsParCategorie(Inv::Categorie::RARE);
+    Inv::list_t const & itemsNormaux = inventaire.getItemsParCategorie(Inv::Categorie::NORMAL);
+    Inv::list_t const & itemsArmes = inventaire.getItemsParCategorie(Inv::Categorie::ARME);
+    Inv::list_t const & itemsConsommables = inventaire.getItemsParCategorie(Inv::Categorie::CONSOMMABLE);
 
-//     inventaire.ajouter(&graal, Inv::Categorie::RARE);
-//     inventaire.ajouter(&baton);
+    inventaire.ajouter(&graal, Inv::Categorie::RARE);
+    inventaire.ajouter(&baton);
 
-//     REQUIRE ( itemsRares.size() == 1 );
-//     REQUIRE ( itemsNormaux.size() == 1 );
-//     REQUIRE ( itemsArmes.size() == 0 );
-//     REQUIRE ( itemsConsommables.size() == 0 );
+    REQUIRE ( itemsRares.size() == 1 );
+    REQUIRE ( itemsNormaux.size() == 1 );
+    REQUIRE ( itemsArmes.size() == 0 );
+    REQUIRE ( itemsConsommables.size() == 0 );
 
-//     REQUIRE ( inventaire.getTaille() == 2);
-// }
+    REQUIRE ( inventaire.getTaille() == 2);
+}
 
 // /*
 //  * Test 13 : Tri
